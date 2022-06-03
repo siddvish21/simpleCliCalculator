@@ -5,13 +5,13 @@ const inquirer = require('inquirer');
       {
         
         name:'Value1',
-        type:"input",
+        type:"number",
         message: 'Number1',
 
       },
       {
         name:'Value2',
-        type:"input",
+        type:"number",
         message:'Number2'
       },
       {
@@ -27,17 +27,60 @@ const inquirer = require('inquirer');
       }
     ])
     .then(answers => {
+
       if(answers.Operation == "add"){
         console.log(parseInt(answers.Value1)+parseInt(answers.Value2))
       }
+
       if(answers.Operation == "subtract"){
-        console.log(parseInt(answers.Value1)-parseInt(answers.Value2))
+        inquirer
+          .prompt([
+            {
+              name:"Sub1",
+              type:"list",
+              message:"Order to Subtract",
+              choices:[
+                answers.Value1 +"-"+ answers.Value2,
+                answers.Value2 +"-"+ answers.Value1
+              ]
+            }
+            
+        ])
+          .then((answers2) => {
+            if(answers2.Sub1 == answers.Value1 +"-"+ answers.Value2){
+              console.log(parseInt(answers.Value1)-parseInt(answers.Value2))
+            }
+            else{
+              console.log(parseInt(answers.Value2)-parseInt(answers.Value1))
+            }
+        })
+       
       }
       if(answers.Operation == "multiply"){
         console.log(parseInt(answers.Value1)*parseInt(answers.Value2))
       }
       if(answers.Operation == "divide"){
-        console.log(parseInt(answers.Value1)/parseInt(answers.Value2))
+        inquirer
+        .prompt([
+          {
+            name:"Div1",
+            type:"list",
+            message:"Order to Divide",
+            choices:[
+              answers.Value1 +"/"+ answers.Value2,
+              answers.Value2 +"/"+ answers.Value1
+            ]
+          }
+          
+      ])
+        .then((answers3) => {
+          if(answers3.Div1 == answers.Value1 +"/"+ answers.Value2){
+            console.log(parseInt(answers.Value1)/parseInt(answers.Value2))
+          }
+          else{
+            console.log(parseInt(answers.Value2)/parseInt(answers.Value1))
+          }
+      })
       }
       
     });
